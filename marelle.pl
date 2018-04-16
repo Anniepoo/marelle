@@ -18,6 +18,7 @@
 :- multifile met/2.
 :- multifile depends/3.
 
+% nobody seems to set platform
 :- dynamic platform/1.
 
 marelle_version('dev').
@@ -382,14 +383,14 @@ meet(selfupdate, _) :-
     sh('cd ~/.local/marelle && git pull'),
     assertz(marelle_has_been_updated).
 
-:- include('00-util').
-:- include('01-python').
-:- include('02-fs').
-:- include('03-homebrew').
-:- include('04-apt').
-:- include('05-git').
-:- include('06-meta').
-:- include('07-managed').
-:- include('08-pacman').
-:- include('09-freebsd').
-:- include('sudo').
+:- include(util).
+:- include(python).
+:- include(fs).
+:- include(homebrew).
+:- include(apt).
+:- include(git).
+:- include(meta).
+:- include(managed).
+:- include(pacman).
+:- include(freebsd).
+:- include(sudo).
