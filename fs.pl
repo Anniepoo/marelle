@@ -1,7 +1,13 @@
+:-module(fs, [
+             symlink_step/3,
+             is_symlinked/2,
+             symlink/2
+         ]).
 %
 %  02-fs.pl
 %  marelle-deps
 %
+:- use_module(basics).
 
 :- multifile symlink_step/3.
 

@@ -1,3 +1,5 @@
+:- module(homebrew, []).
+
 %
 %  03-homebrew.pl
 %  marelle-deps
@@ -5,6 +7,7 @@
 %  Helpers for working with Homebrew.
 %  http://mxcl.github.io/homebrew/
 %
+:- use_module(basics).
 
 command_pkg(brew).
 

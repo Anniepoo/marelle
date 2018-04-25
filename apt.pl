@@ -1,7 +1,9 @@
+:- module(apt, []).
 %
 %  04-apt.pl
 %  marelle-deps
 %
+:- use_module(basics).
 
 % installs_with_apt(Pkg).
 %   Pkg installs with apt package of same name on all Ubuntu/Debian flavours

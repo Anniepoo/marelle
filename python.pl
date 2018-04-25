@@ -2,6 +2,13 @@
 %  01-python-helpers.pl
 %  marelle-deps
 %
+:- module(python, [
+
+          ]).
+
+:- use_module(basics).
+
+:- use_module(util).
 
 % python_pkg(-Pkg) is nondet.
 %   Pkg is a python module imported using the same name.

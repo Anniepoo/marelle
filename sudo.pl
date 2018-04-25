@@ -1,7 +1,10 @@
+:- module(sudo, []).
+
 %
 %  sudo.pl
 %  marelle
 %
+:- use_module(basics).
 
 % sudo_tell/1.
 %   Like tell/1, but works on files which you need to sudo to get privileges

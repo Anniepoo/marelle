@@ -1,7 +1,9 @@
+:- module(freebsd, []).
 %
 %  09-freebsd.pl
 %  marelle
 %
+:- use_module(basics).
 
 % installs_with_pkgng(Pkg).
 %  Pkg installs with pkgng package of same name.

@@ -7,7 +7,9 @@
 
 :- begin_tests(marelle).
 
-:- include('marelle').
+:- use_module(marelle).
+:- use_module(fs).
+:- use_module(util).
 
 test(sh) :-
     sh(echo),

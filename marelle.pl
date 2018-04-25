@@ -1,8 +1,13 @@
-%
+:- module(marelle, [
+          cached_met/1,
+          check_dpkg/1,
+          install_apt/1]).
 %  marelle
 %
 %  Test driven system administration.
 %
+%  This module is what's run.
+
 
 %
 %  WRITING DEPS
@@ -13,10 +18,9 @@
 %  met(python, _) :- which(python, _).
 %  meet(python, osx) :- sh('brew install python').
 %
-:- multifile pkg/1.
-:- multifile meet/2.
-:- multifile met/2.
-:- multifile depends/3.
+:- use_module(basics).
+
+:- use_module(util).
 
 % nobody seems to set platform
 :- dynamic platform/1.
@@ -42,7 +46,7 @@ marelle_search_path('deps').
 %
 %
 
-main :-
+user:main :-
     ( current_prolog_flag(os_argv, Argv) ->
         true
     ;
@@ -251,16 +255,6 @@ usage :-
     writeln('Detect and meet dependencies. Searches ~/.marelle/deps and the folder'),
     writeln('marelle-deps in the current directory if it exists.').
 
-% which(+Command, -Path) is semidet.
-%   See if a command is available in the current PATH, and return the path to
-%   that command.
-which(Command, Path) :-
-    sh_output(['which ', Command], Path).
-
-% which(+Command) is semidet.
-%   See if a command is available in the current PATH.
-which(Command) :- which(Command, _).
-
 % platform(-Platform).
 %   Determines the current platform (e.g. osx, ubuntu). Needs to be called
 %   after detect_platform/0 has set the platform.
@@ -286,8 +280,6 @@ detect_platform :-
     ),
     retractall(platform(_)),
     assertz(platform(Platform)).
-
-join(L, R) :- atomic_list_concat(L, R).
 
 % linux_name(-Name) is det.
 %   Determine the codename of the linux release (e.g. precise). If there can
@@ -338,43 +330,6 @@ writeln_stderr(S) :-
     write(Stream, '\n'),
     close(Stream).
 
-join_if_list(Input, Output) :-
-    ( is_list(Input) ->
-        join(Input, Output)
-    ;
-        Output = Input
-    ).
-
-% sh(+Cmd, -Code) is semidet.
-%   Execute the given command in shell. Catch signals in the subshell and
-%   cause it to fail if CTRL-C is given, rather than becoming interactive.
-%   Code is the exit code of the command.
-sh(Cmd0, Code) :-
-    join_if_list(Cmd0, Cmd),
-    catch(shell(Cmd, Code), _, fail).
-
-bash(Cmd0, Code) :- sh(Cmd0, Code).
-
-% sh(+Cmd) is semidet.
-%   Run the command in shell and fail unless it returns with exit code 0.
-sh(Cmd) :- sh(Cmd, 0).
-
-bash(Cmd0) :- sh(Cmd0).
-
-% sh_output(+Cmd, -Output) is semidet.
-%   Run the command in shell and capture its stdout, trimming the last
-%   newline. Fails if the command doesn't return status code 0.
-sh_output(Cmd0, Output) :-
-    tmp_file(syscmd, TmpFile),
-    join_if_list(Cmd0, Cmd),
-    join([Cmd, ' >', TmpFile], Call),
-    sh(Call),
-    read_file_to_codes(TmpFile, Codes, []),
-    atom_codes(Raw, Codes),
-    atom_concat(Output, '\n', Raw).
-
-bash_output(Cmd, Output) :- sh_output(Cmd, Output).
-
 :- dynamic marelle_has_been_updated/0.
 
 pkg(selfupdate).
@@ -383,14 +338,16 @@ meet(selfupdate, _) :-
     sh('cd ~/.local/marelle && git pull'),
     assertz(marelle_has_been_updated).
 
-:- include(util).
-:- include(python).
-:- include(fs).
-:- include(homebrew).
-:- include(apt).
-:- include(git).
-:- include(meta).
-:- include(managed).
-:- include(pacman).
-:- include(freebsd).
-:- include(sudo).
+/*
+:- ensure_loaded(python).
+:- ensure_loaded(fs).
+:- ensure_loaded(homebrew).
+:- ensure_loaded(apt).
+:- ensure_loaded(git).
+
+:- ensure_loaded(meta).
+:- ensure_loaded(managed).
+:- ensure_loaded(pacman).
+:- ensure_loaded(freebsd).
+:- ensure_loaded(sudo).
+*/

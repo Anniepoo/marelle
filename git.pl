@@ -1,7 +1,9 @@
+:- module(git, []).
 %
 %  05-git.pl
 %  marelle-deps
 %
+:- use_module(basics).
 
 :- multifile git_step/3.
 

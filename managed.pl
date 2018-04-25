@@ -1,3 +1,5 @@
+:- module(managed, []).
+
 %
 %  07-managed.pl
 %  marelle
@@ -6,6 +8,7 @@
 %
 
 :- multifile managed_pkg/1.
+:- use_module(basics).
 
 pkg(P) :- managed_pkg(P).
 

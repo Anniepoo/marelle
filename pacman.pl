@@ -1,7 +1,10 @@
+:- module(pacman, []).
+
 %
 %  08-pacman.pl
 %  marelle-deps
 %
+:- use_module(basics).
 
 % installs_with_pacman(Pkg).
 %   Pkg installs with pacman package of same name on Arch Linux

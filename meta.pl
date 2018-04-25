@@ -1,7 +1,13 @@
+:- module(meta, []).
 %
 %  06-meta.pl
 %  marelle-deps
 %
+:- use_module(basics).
+
+% annie suspects everything should be done this way, doing a use_module
+%
+:- use_module(marelle).
 
 % meta_pkg(Name, Plat, Deps).
 %   On platform Plat, you can set up Name by meeting Deps.
